@@ -281,6 +281,38 @@ body {
   color: var(--accent-terracotta);
 }
 
+/* Mobile Light Theme Enforcement */
+@media (max-width: 768px) {
+  :root, [data-theme="dark"], [data-theme="daylight"] {
+    --bg-deep: #F5F3ED !important;
+    --bg-surface: #E8E4D8 !important;
+    --bg-card: #FFFFFF !important;
+    --bg-elevated: #DDD7C8 !important;
+
+    --text-primary: #0C1E14 !important;
+    --text-secondary: #354E40 !important;
+    --text-muted: #5F7A6A !important;
+
+    --accent-moss: #3A694C !important;
+    --accent-sage: #5A7E6B !important;
+    --accent-terracotta: #C85A32 !important;
+    --accent-terracotta-glow: rgba(200, 90, 50, 0.2) !important;
+    --accent-marigold: #D48C28 !important;
+    --accent-gold: #D4A325 !important;
+
+    --border-light: rgba(12, 30, 20, 0.08) !important;
+    --border-medium: rgba(12, 30, 20, 0.18) !important;
+    --border-accent: rgba(58, 105, 76, 0.3) !important;
+
+    --shadow-sm: 0 4px 12px rgba(12, 30, 20, 0.06) !important;
+    --shadow-lg: 0 20px 40px rgba(12, 30, 20, 0.12) !important;
+  }
+
+  .theme-toggle-btn {
+    display: none !important;
+  }
+}
+
 /* Touch Devices & Reduced Motion Safety */
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
   .custom-cursor {
