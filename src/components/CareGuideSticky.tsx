@@ -7,52 +7,48 @@ export const CareGuideSticky: React.FC = () => {
       num: "01",
       title: "Mastering Watering Balance",
       icon: <Droplets size={24} />,
-      summary: "Underwatering stresses plants; overwatering suffocates roots. Always test soil moisture 2 inches below the surface before soaking.",
-      details: "For Kadiyam fruit trees and outdoor grafts, deep soaking twice weekly encourages deep tap roots rather than shallow surface roots.",
+      summary: "Always test soil moisture 2 inches below the surface before soaking. Deep watering twice weekly promotes strong tap roots.",
     },
     {
       num: "02",
-      title: "Soil Micro-Nutrients & Organic Feed",
+      title: "Soil Micro-Nutrients & Feed",
       icon: <Sparkles size={24} />,
-      summary: "Rich alluvial soil forms the backbone of Satyadeva nursery specimens. Feed organic vermicompost and neem cake every 60 days.",
-      details: "Avoid synthetic chemical spikes which burn tender feeder roots. Use organic liquid seaweed extract during bloom cycles.",
+      summary: "Feed organic vermicompost and neem cake every 60 days to enrich soil microbe activity and boost blooming capacity.",
     },
     {
       num: "03",
       title: "Strategic Seasonal Pruning",
       icon: <Scissors size={24} />,
-      summary: "Pruning removes dead wood, stimulates lateral branching, and directs plant energy toward heavy flowering and fruit yield.",
-      details: "Always use sterilized bypass shears. Make clean 45-degree angle cuts just above outward-facing leaf nodes.",
+      summary: "Prune dead stems at a 45-degree angle to direct plant energy toward dense foliage and heavy fruit yield.",
     },
     {
       num: "04",
-      title: "Micro-Climate Placement & Light",
+      title: "Sunlight & Micro-Climates",
       icon: <Sun size={24} />,
-      summary: "Match species to sunlight exposure. Rotate potted indoor plants 90 degrees every fortnight for uniform foliage distribution.",
-      details: "Protect delicate shade plants like Monstera and Ferns from harsh 2 PM afternoon tropical sun to prevent leaf scorch.",
+      summary: "Position plants according to light needs. Rotate potted indoor plants fortnightly for uniform leaf growth.",
     },
   ];
 
   return (
     <section id="care-guide" className="care-section">
       <div className="care-container">
-        <div className="care-sticky-col">
-          <div className="eyebrow">07 // HORTICULTURAL WISDOM</div>
-          <h2 className="text-display-lg">The Plant Care Master Guide.</h2>
-          <p>Simple, timeless guidelines honed over 75 years of commercial nursery cultivation in Andhra Pradesh.</p>
+        <div className="section-header">
+          <div className="eyebrow">HORTICULTURAL WISDOM</div>
+          <h2 className="section-heading">Essential Plant Care Guide</h2>
+          <p className="section-subtext">
+            Simple, time-tested advice honed over 75 years of commercial nursery cultivation in Andhra Pradesh.
+          </p>
         </div>
 
-        <div className="care-steps-col">
+        <div className="care-grid">
           {steps.map((step) => (
-            <div key={step.num} className="care-step-card">
-              <div className="step-header font-mono">
+            <div key={step.num} className="care-card">
+              <div className="card-header">
                 <span className="step-num">{step.num}</span>
-                <div className="step-icon">{step.icon}</div>
+                <div className="card-icon">{step.icon}</div>
               </div>
-
-              <h3 className="step-title font-serif">{step.title}</h3>
-              <p className="step-summary">{step.summary}</p>
-              <div className="step-details">{step.details}</div>
+              <h3 className="card-title font-serif">{step.title}</h3>
+              <p className="card-summary">{step.summary}</p>
             </div>
           ))}
         </div>
@@ -60,86 +56,66 @@ export const CareGuideSticky: React.FC = () => {
 
       <style>{`
         .care-section {
-          padding: 8rem 2rem;
-          background: var(--bg-surface);
+          padding: 6rem 1.5rem;
+          background: var(--bg-main);
         }
 
         .care-container {
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
+        }
+
+        .care-grid {
           display: grid;
-          grid-template-columns: 450px 1fr;
-          gap: 5rem;
-          align-items: start;
+          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          gap: 2rem;
+          margin-top: 3rem;
         }
 
-        .care-sticky-col {
-          position: sticky;
-          top: 8rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .care-steps-col {
-          display: flex;
-          flex-direction: column;
-          gap: 2.5rem;
-        }
-
-        .care-step-card {
-          background: var(--bg-card);
+        .care-card {
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
-          border-radius: var(--radius-lg);
-          padding: 3rem;
+          border-radius: var(--radius-md);
+          padding: 2rem;
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
-          transition: var(--transition-fast);
+          gap: 1rem;
+          box-shadow: var(--shadow-sm);
+          transition: var(--transition-smooth);
         }
 
-        .care-step-card:hover {
-          border-color: var(--accent-terracotta);
-          transform: translateX(6px);
+        .care-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-md);
+          border-color: var(--color-primary);
         }
 
-        .step-header {
+        .card-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
 
         .step-num {
-          font-size: 1.25rem;
-          color: var(--accent-terracotta);
+          font-family: var(--font-mono);
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: var(--color-accent);
         }
 
-        .step-icon {
-          color: var(--accent-sage);
+        .card-icon {
+          color: var(--color-primary);
         }
 
-        .step-title {
-          font-size: 2rem;
-          color: var(--text-primary);
+        .card-title {
+          font-size: 1.4rem;
+          color: var(--color-primary);
         }
 
-        .step-summary {
-          font-size: 1.05rem;
-          color: var(--text-primary);
-          line-height: 1.6;
-        }
-
-        .step-details {
+        .card-summary {
           font-size: 0.9rem;
-          color: var(--text-muted);
+          color: var(--text-secondary);
           line-height: 1.6;
-          border-top: 1px solid var(--border-light);
-          padding-top: 1rem;
-        }
-
-        @media (max-width: 900px) {
-          .care-container { grid-template-columns: 1fr; gap: 3rem; }
-          .care-sticky-col { position: relative; top: 0; }
         }
       `}</style>
     </section>

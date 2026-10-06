@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Search, Grid, List, Star, Sun, Droplets, ShoppingBag, MessageCircle, X } from 'lucide-react';
+import { Search, Star, Sun, Droplets, MessageCircle, X, ShoppingBag } from 'lucide-react';
 import { PLANTS_DATA, PLANT_CATEGORIES, NURSERY_DETAILS, type Plant } from '../data/nurseryData';
 
 export const ShopCatalogue: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedPlant, setSelectedPlant] = useState<Plant | null>(null);
 
   const filteredPlants = PLANTS_DATA.filter((plant) => {
@@ -20,108 +19,79 @@ export const ShopCatalogue: React.FC = () => {
   return (
     <section id="catalogue" className="catalogue-section">
       <div className="catalogue-container">
-        <div className="catalogue-header">
-          <div className="eyebrow">04 // NURSERY CATALOGUE</div>
-          <h2 className="text-display-lg">The Botanical Store</h2>
-          <p>Browse our hand-cultivated varieties available for immediate dispatch or garden installation.</p>
+        <div className="section-header">
+          <div className="eyebrow">NURSERY CATALOGUE</div>
+          <h2 className="section-heading">Featured Plant Store</h2>
+          <p className="section-subtext">
+            Hand-cultivated varieties ready for home gardens, farms, balconies, and commercial landscape projects.
+          </p>
         </div>
 
-        {/* Filter Controls Bar */}
+        {/* Search & Category Filter */}
         <div className="catalogue-toolbar">
-          {/* Search Box */}
           <div className="search-box">
             <Search size={18} className="search-icon" />
             <input
               type="text"
-              placeholder="Search plant, botanical name, or category..."
+              placeholder="Search plant name, botanical species, or category..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="search-input"
             />
           </div>
 
-          {/* Grid/List View Toggle */}
-          <div className="view-toggle">
-            <button
-              className={`toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
-              onClick={() => setViewMode('grid')}
-              aria-label="Grid View"
-            >
-              <Grid size={18} />
-            </button>
-            <button
-              className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
-              onClick={() => setViewMode('list')}
-              aria-label="List View"
-            >
-              <List size={18} />
-            </button>
+          <div className="category-pills">
+            {PLANT_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                className={`pill-btn ${selectedCategory === cat ? 'active' : ''}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Category Tabs */}
-        <div className="category-tabs">
-          {PLANT_CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              className={`tab-btn ${selectedCategory === cat ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Plant Cards Container */}
-        <div className={`plants-grid ${viewMode === 'list' ? 'list-layout' : ''}`}>
+        {/* Plants Grid */}
+        <div className="plants-grid">
           {filteredPlants.map((plant) => (
-            <div
-              key={plant.id}
-              className="plant-card"
-              data-cursor-text="DETAILS"
-              onClick={() => setSelectedPlant(plant)}
-            >
+            <div key={plant.id} className="plant-card" onClick={() => setSelectedPlant(plant)}>
               <div className="plant-img-wrapper">
                 <img src={plant.image} alt={plant.name} className="plant-img" />
-                <span className="plant-price-badge font-mono">{plant.price}</span>
+                <span className="plant-price">{plant.price}</span>
               </div>
 
-              <div className="plant-info">
-                <div className="plant-meta font-mono">
-                  <span>{plant.category}</span>
-                  <span className="rating-badge">
-                    <Star size={12} fill="#E5A93C" color="#E5A93C" />
-                    {plant.rating} ({plant.reviewsCount})
+              <div className="plant-body">
+                <div className="plant-meta">
+                  <span className="category-tag">{plant.category}</span>
+                  <span className="rating-tag">
+                    <Star size={13} fill="#D99B26" color="#D99B26" />
+                    {plant.rating}
                   </span>
                 </div>
 
-                <h3 className="plant-name font-serif">{plant.name}</h3>
+                <h3 className="plant-title font-serif">{plant.name}</h3>
                 <em className="plant-botanical">{plant.botanicalName}</em>
 
-                <div className="plant-badges">
-                  <span className="badge-chip">
-                    <Sun size={12} /> {plant.sunlight}
-                  </span>
-                  <span className="badge-chip">
-                    <Droplets size={12} /> {plant.waterNeed}
-                  </span>
+                <div className="plant-chips">
+                  <span className="chip"><Sun size={12} /> {plant.sunlight}</span>
+                  <span className="chip"><Droplets size={12} /> {plant.waterNeed}</span>
                 </div>
 
-                <div className="plant-card-footer">
-                  <button
-                    className="btn-editorial card-whatsapp-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.open(
-                        `https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20am%20interested%20in%20buying%20${encodeURIComponent(plant.name)}%20(${plant.price}).`,
-                        '_blank'
-                      );
-                    }}
-                  >
-                    <MessageCircle size={14} />
-                    <span>Enquire on WhatsApp</span>
-                  </button>
-                </div>
+                <button
+                  className="btn btn-whatsapp card-order-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(
+                      `https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20want%20to%20buy%20${encodeURIComponent(plant.name)}%20(${plant.price}).`,
+                      '_blank'
+                    );
+                  }}
+                >
+                  <MessageCircle size={15} />
+                  <span>Order on WhatsApp</span>
+                </button>
               </div>
             </div>
           ))}
@@ -129,53 +99,46 @@ export const ShopCatalogue: React.FC = () => {
 
         {filteredPlants.length === 0 && (
           <div className="no-results">
-            <h3>No plant varieties found</h3>
-            <p>Try searching for a different keyword like 'Mango', 'Bonsai', or 'Adenium'.</p>
+            <h3>No matching plants found</h3>
+            <p>Try searching for 'Mango', 'Bonsai', 'Adenium', or reset filters.</p>
           </div>
         )}
       </div>
 
-      {/* Plant Detail Modal */}
+      {/* Detail Modal */}
       {selectedPlant && (
-        <div className="modal-overlay" onClick={() => setSelectedPlant(null)}>
-          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setSelectedPlant(null)}>
-              <X size={24} />
+        <div className="modal-backdrop" onClick={() => setSelectedPlant(null)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setSelectedPlant(null)}>
+              <X size={20} />
             </button>
 
-            <div className="modal-grid">
-              <div className="modal-img-col">
+            <div className="modal-content-grid">
+              <div className="modal-img-wrapper">
                 <img src={selectedPlant.image} alt={selectedPlant.name} />
               </div>
 
-              <div className="modal-details-col">
-                <div className="eyebrow">{selectedPlant.category} // {selectedPlant.origin}</div>
+              <div className="modal-body font-sans">
+                <span className="eyebrow">{selectedPlant.category}</span>
                 <h2 className="modal-title font-serif">{selectedPlant.name}</h2>
-                <em className="modal-botanical font-mono">{selectedPlant.botanicalName}</em>
-
-                <div className="modal-price font-serif">{selectedPlant.price}</div>
+                <em className="modal-botanical">{selectedPlant.botanicalName}</em>
+                <div className="modal-price">{selectedPlant.price}</div>
 
                 <p className="modal-desc">{selectedPlant.description}</p>
 
-                <div className="care-box">
+                <div className="care-tip-box">
                   <strong>💡 Horticulturist Care Tip:</strong>
                   <p>{selectedPlant.careTip}</p>
-                </div>
-
-                <div className="modal-specs">
-                  <div><strong>Sunlight:</strong> {selectedPlant.sunlight}</div>
-                  <div><strong>Water Need:</strong> {selectedPlant.waterNeed}</div>
-                  <div><strong>Growth Speed:</strong> {selectedPlant.growthSpeed}</div>
                 </div>
 
                 <a
                   href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20want%20to%20order%20${encodeURIComponent(selectedPlant.name)}%20(${selectedPlant.price}).`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-editorial btn-primary modal-action-btn"
+                  className="btn btn-whatsapp modal-buy-btn"
                 >
                   <ShoppingBag size={18} />
-                  <span>Order via WhatsApp</span>
+                  <span>Order Matched Plant ({selectedPlant.price})</span>
                 </a>
               </div>
             </div>
@@ -185,32 +148,26 @@ export const ShopCatalogue: React.FC = () => {
 
       <style>{`
         .catalogue-section {
-          padding: 8rem 2rem;
-          background: var(--bg-deep);
+          padding: 6rem 1.5rem;
+          background: var(--bg-surface);
         }
 
         .catalogue-container {
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
-        }
-
-        .catalogue-header {
-          margin-bottom: 3rem;
         }
 
         .catalogue-toolbar {
           display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 2rem;
-          margin-bottom: 2rem;
-          flex-wrap: wrap;
+          flex-direction: column;
+          gap: 1.5rem;
+          margin-top: 2.5rem;
+          margin-bottom: 3rem;
         }
 
         .search-box {
           position: relative;
-          flex-grow: 1;
-          max-width: 500px;
+          max-width: 550px;
         }
 
         .search-icon {
@@ -223,98 +180,74 @@ export const ShopCatalogue: React.FC = () => {
 
         .search-input {
           width: 100%;
-          padding: 1rem 1.25rem 1rem 3.25rem;
-          background: var(--bg-card);
+          padding: 0.9rem 1.25rem 0.9rem 3.25rem;
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-full);
-          color: var(--text-primary);
           font-size: 0.95rem;
+          color: var(--text-primary);
           outline: none;
           transition: var(--transition-fast);
         }
 
         .search-input:focus {
-          border-color: var(--accent-terracotta);
-          box-shadow: 0 0 15px var(--accent-terracotta-glow);
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px rgba(15, 56, 44, 0.1);
         }
 
-        .view-toggle {
+        .category-pills {
           display: flex;
-          gap: 0.5rem;
-          background: var(--bg-card);
-          padding: 0.4rem;
-          border-radius: var(--radius-full);
-          border: 1px solid var(--border-medium);
-        }
-
-        .toggle-btn {
-          background: none;
-          border: none;
-          padding: 0.5rem;
-          color: var(--text-muted);
-          border-radius: 50%;
-          cursor: pointer;
-        }
-
-        .toggle-btn.active {
-          background: var(--accent-moss);
-          color: #FFF;
-        }
-
-        .category-tabs {
-          display: flex;
-          gap: 0.75rem;
+          gap: 0.6rem;
           overflow-x: auto;
-          padding-bottom: 1.5rem;
-          margin-bottom: 3rem;
+          padding-bottom: 0.5rem;
         }
 
-        .tab-btn {
-          padding: 0.6rem 1.4rem;
+        .pill-btn {
+          padding: 0.55rem 1.25rem;
           border-radius: var(--radius-full);
-          background: var(--bg-card);
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
           color: var(--text-secondary);
           font-size: 0.85rem;
+          font-weight: 500;
           cursor: pointer;
           white-space: nowrap;
           transition: var(--transition-fast);
         }
 
-        .tab-btn:hover, .tab-btn.active {
-          background: var(--accent-terracotta);
-          color: #FFF;
-          border-color: var(--accent-terracotta);
+        .pill-btn:hover, .pill-btn.active {
+          background: var(--color-primary);
+          color: #FFFFFF;
+          border-color: var(--color-primary);
         }
 
         .plants-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
           gap: 2rem;
         }
 
-        .plants-grid.list-layout {
-          grid-template-columns: 1fr;
-        }
-
         .plant-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-medium);
-          border-radius: var(--radius-lg);
+          background: #FFFFFF;
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-md);
           overflow: hidden;
+          box-shadow: var(--shadow-sm);
           cursor: pointer;
           transition: var(--transition-smooth);
+          display: flex;
+          flex-direction: column;
         }
 
         .plant-card:hover {
-          transform: translateY(-6px);
-          border-color: var(--accent-terracotta);
-          box-shadow: var(--shadow-lg);
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-md);
+          border-color: var(--color-primary);
         }
 
         .plant-img-wrapper {
           position: relative;
-          height: 260px;
+          height: 240px;
           overflow: hidden;
         }
 
@@ -322,50 +255,57 @@ export const ShopCatalogue: React.FC = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.6s ease;
+          transition: transform 0.5s ease;
         }
 
         .plant-card:hover .plant-img {
           transform: scale(1.08);
         }
 
-        .plant-price-badge {
+        .plant-price {
           position: absolute;
           bottom: 1rem;
           right: 1rem;
-          background: var(--accent-terracotta);
-          color: #FFF;
-          padding: 0.4rem 1rem;
+          background: var(--color-primary);
+          color: #FFFFFF;
+          padding: 0.35rem 0.9rem;
           border-radius: var(--radius-full);
           font-weight: 700;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
         }
 
-        .plant-info {
-          padding: 1.75rem;
+        .plant-body {
+          padding: 1.5rem;
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 0.6rem;
+          flex-grow: 1;
         }
 
         .plant-meta {
           display: flex;
           justify-content: space-between;
+          align-items: center;
+        }
+
+        .category-tag {
           font-size: 0.75rem;
-          color: var(--accent-sage);
+          font-weight: 600;
+          color: var(--color-accent);
           text-transform: uppercase;
         }
 
-        .rating-badge {
+        .rating-tag {
           display: flex;
           align-items: center;
-          gap: 0.3rem;
-          color: var(--text-primary);
+          gap: 0.25rem;
+          font-size: 0.8rem;
+          font-weight: 600;
         }
 
-        .plant-name {
-          font-size: 1.6rem;
-          color: var(--text-primary);
+        .plant-title {
+          font-size: 1.4rem;
+          color: var(--color-primary);
         }
 
         .plant-botanical {
@@ -373,124 +313,110 @@ export const ShopCatalogue: React.FC = () => {
           color: var(--text-muted);
         }
 
-        .plant-badges {
+        .plant-chips {
           display: flex;
-          gap: 0.75rem;
-          margin-top: 0.5rem;
+          gap: 0.5rem;
+          margin-top: 0.25rem;
         }
 
-        .badge-chip {
+        .chip {
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
+          gap: 0.3rem;
           background: var(--bg-surface);
-          padding: 0.3rem 0.75rem;
+          padding: 0.25rem 0.6rem;
           border-radius: var(--radius-sm);
           font-size: 0.75rem;
           color: var(--text-secondary);
         }
 
-        .plant-card-footer {
+        .card-order-btn {
           margin-top: 1rem;
-          padding-top: 1rem;
-          border-top: 1px solid var(--border-light);
-        }
-
-        .card-whatsapp-btn {
           width: 100%;
           justify-content: center;
-          padding: 0.75rem 1rem;
-          font-size: 0.8rem;
+          padding: 0.75rem;
+          font-size: 0.85rem;
         }
 
-        /* Modal Styles */
-        .modal-overlay {
+        /* Modal */
+        .modal-backdrop {
           position: fixed;
           inset: 0;
-          z-index: 1000;
-          background: rgba(0,0,0,0.85);
-          backdrop-filter: blur(12px);
+          background: rgba(10, 30, 23, 0.75);
+          backdrop-filter: blur(8px);
+          z-index: 2000;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 2rem;
+          padding: 1.5rem;
         }
 
-        .modal-card {
+        .modal-container {
           position: relative;
-          background: var(--bg-card);
-          border: 1px solid var(--border-medium);
+          background: #FFFFFF;
           border-radius: var(--radius-lg);
-          max-width: 900px;
+          max-width: 850px;
           width: 100%;
           max-height: 90vh;
           overflow-y: auto;
+          box-shadow: var(--shadow-lg);
         }
 
-        .modal-close {
+        .modal-close-btn {
           position: absolute;
-          top: 1.5rem;
-          right: 1.5rem;
-          background: rgba(0,0,0,0.5);
+          top: 1.25rem;
+          right: 1.25rem;
+          background: rgba(0,0,0,0.1);
           border: none;
-          color: #FFF;
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
           z-index: 10;
         }
 
-        .modal-grid {
+        .modal-content-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
         }
 
-        .modal-img-col img {
+        .modal-img-wrapper img {
           width: 100%;
           height: 100%;
-          min-height: 450px;
+          min-height: 400px;
           object-fit: cover;
         }
 
-        .modal-details-col {
-          padding: 3rem 2.5rem;
+        .modal-body {
+          padding: 2.5rem 2rem;
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
-        .modal-title { font-size: 2.5rem; }
-        .modal-botanical { color: var(--accent-sage); }
-        .modal-price { font-size: 2rem; color: var(--accent-terracotta); }
-        .modal-desc { color: var(--text-secondary); line-height: 1.7; }
+        .modal-title { font-size: 2.2rem; color: var(--color-primary); }
+        .modal-botanical { color: var(--text-muted); }
+        .modal-price { font-size: 1.8rem; font-weight: 700; color: var(--color-accent); }
 
-        .care-box {
+        .care-tip-box {
           background: var(--bg-surface);
-          padding: 1.25rem;
+          padding: 1rem;
           border-radius: var(--radius-md);
-          border-left: 4px solid var(--accent-marigold);
-          font-size: 0.9rem;
+          font-size: 0.85rem;
+          border-left: 4px solid var(--color-gold);
         }
 
-        .modal-specs {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1rem;
-          font-size: 0.8rem;
-          padding: 1rem 0;
-          border-top: 1px solid var(--border-light);
-          border-bottom: 1px solid var(--border-light);
-        }
-
-        .modal-action-btn {
+        .modal-buy-btn {
           margin-top: 1rem;
           justify-content: center;
         }
 
         @media (max-width: 768px) {
-          .modal-grid { grid-template-columns: 1fr; }
-          .modal-img-col img { min-height: 250px; }
+          .modal-content-grid { grid-template-columns: 1fr; }
+          .modal-img-wrapper img { min-height: 240px; }
         }
       `}</style>
     </section>

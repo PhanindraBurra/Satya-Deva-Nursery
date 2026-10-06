@@ -15,33 +15,34 @@ export const ContactSection: React.FC = () => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => {
-      // Pre-fill WhatsApp message option
-      const messageText = `Name: ${formData.name}%0APhone: ${formData.phone}%0AInterest: ${formData.plantInterest}%0AMessage: ${formData.message}`;
-      window.open(`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=${messageText}`, '_blank');
-    }, 1000);
+      const msg = `Name: ${formData.name}%0APhone: ${formData.phone}%0AInterest: ${formData.plantInterest}%0AMessage: ${formData.message}`;
+      window.open(`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=${msg}`, '_blank');
+    }, 800);
   };
 
   return (
     <section id="contact" className="contact-section">
       <div className="contact-container">
         <div className="contact-grid">
-          {/* Info & Styled Map */}
-          <div className="contact-info-col">
-            <div className="eyebrow">11 // CONNECT WITH KADIYAM</div>
-            <h2 className="text-display-lg">Visit & Contact Us</h2>
-            <p>Experience our 120-acre mother plant orchards or request nationwide plant freight shipping.</p>
+          {/* Info Block */}
+          <div className="contact-info">
+            <div className="eyebrow">VISIT & CONTACT DESK</div>
+            <h2 className="section-heading">Get in Touch with Kadiyam</h2>
+            <p className="contact-desc">
+              Visit our 120-acre mother plant orchards or contact our horticulturists for plant orders and nationwide freight quotes.
+            </p>
 
             <div className="info-cards-list">
-              <div className="info-card">
-                <MapPin size={22} className="info-icon" />
+              <div className="info-item">
+                <MapPin size={20} className="info-icon" />
                 <div>
-                  <strong>Nursery Location:</strong>
+                  <strong>Nursery Address:</strong>
                   <p>{NURSERY_DETAILS.address}</p>
                 </div>
               </div>
 
-              <div className="info-card">
-                <Phone size={22} className="info-icon" />
+              <div className="info-item">
+                <Phone size={20} className="info-icon" />
                 <div>
                   <strong>Phone / WhatsApp:</strong>
                   <p>
@@ -51,61 +52,60 @@ export const ContactSection: React.FC = () => {
                 </div>
               </div>
 
-              <div className="info-card">
-                <Mail size={22} className="info-icon" />
+              <div className="info-item">
+                <Mail size={20} className="info-icon" />
                 <div>
-                  <strong>Email Desk:</strong>
+                  <strong>Email:</strong>
                   <p><a href={`mailto:${NURSERY_DETAILS.email}`}>{NURSERY_DETAILS.email}</a></p>
                 </div>
               </div>
 
-              <div className="info-card">
-                <Clock size={22} className="info-icon" />
+              <div className="info-item">
+                <Clock size={20} className="info-icon" />
                 <div>
-                  <strong>Visiting Timings:</strong>
+                  <strong>Visiting Hours:</strong>
                   <p>{NURSERY_DETAILS.timings}</p>
                 </div>
               </div>
             </div>
 
-            {/* Dark Styled Map Card */}
-            <div className="dark-map-card">
-              <div className="map-badge font-mono">📍 KADIYAPULANKA GOOGLE MAPS</div>
-              <div className="map-placeholder">
-                <div className="pin-pulse" />
-                <span>Sri Satyadeva Nursery Headquarters</span>
-                <a
-                  href="https://maps.google.com/?q=Satyadeva+Nursery+Kadiyapulanka"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-editorial map-btn"
-                >
-                  Open in Google Maps ↗
-                </a>
+            {/* Google Map Link Card */}
+            <div className="map-card">
+              <div>
+                <strong>📍 Kadiyapulanka Google Maps</strong>
+                <p>Veeravaram Road, Kadiyam, AP 533126</p>
               </div>
+              <a
+                href="https://maps.google.com/?q=Satyadeva+Nursery+Kadiyapulanka"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline map-link-btn"
+              >
+                Open Google Maps ↗
+              </a>
             </div>
           </div>
 
-          {/* Form */}
-          <div className="contact-form-col">
+          {/* Form Block */}
+          <div className="contact-form-wrapper">
             <div className="form-card">
-              <h3 className="text-display-md font-serif">Send an Enquiry</h3>
-              <p>Our senior horticulturists respond within 2 business hours.</p>
+              <h3 className="form-title font-serif">Send Direct Enquiry</h3>
+              <p className="form-sub">Our horticulturists will get back to you promptly.</p>
 
               {!submitted ? (
-                <form onSubmit={handleSubmit} className="contact-form">
-                  <div className="form-group">
-                    <label>Full Name</label>
+                <form onSubmit={handleSubmit} className="form-grid">
+                  <div className="field-group">
+                    <label>Your Name</label>
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Rajesh Varma"
+                      placeholder="e.g. Ramesh Varma"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className="field-group">
                     <label>Phone / WhatsApp Number</label>
                     <input
                       type="tel"
@@ -116,39 +116,39 @@ export const ContactSection: React.FC = () => {
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className="field-group">
                     <label>Plant Category Interest</label>
                     <select
                       value={formData.plantInterest}
                       onChange={(e) => setFormData({ ...formData, plantInterest: e.target.value })}
                     >
                       <option value="Fruit Trees">Fruit Graft Trees</option>
-                      <option value="Indoor & Office">Indoor & Biophilic Setup</option>
-                      <option value="Landscaping">Landscaping Master Project</option>
-                      <option value="Wholesale">Wholesale Commercial Freight</option>
-                      <option value="Bonsai">Bonsai Master Collection</option>
+                      <option value="Indoor & Office">Indoor & Office Plants</option>
+                      <option value="Landscaping">Landscaping Project</option>
+                      <option value="Wholesale">Wholesale Commercial Supply</option>
+                      <option value="Bonsai">Bonsai Specimen</option>
                     </select>
                   </div>
 
-                  <div className="form-group">
-                    <label>Message / Quantity Requirements</label>
+                  <div className="field-group">
+                    <label>Message / Quantity Needed</label>
                     <textarea
                       rows={4}
-                      placeholder="Specify requirements, species, or land acreage..."
+                      placeholder="Describe species or garden requirements..."
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     />
                   </div>
 
-                  <button type="submit" className="btn-editorial btn-primary submit-btn">
+                  <button type="submit" className="btn btn-primary submit-btn">
                     <Send size={16} />
                     <span>Submit & Open WhatsApp</span>
                   </button>
                 </form>
               ) : (
-                <div className="form-success">
-                  <CheckCircle2 size={48} color="#D86A38" />
-                  <h4>Enquiry Received!</h4>
+                <div className="form-success font-serif">
+                  <CheckCircle2 size={48} color="#0F382C" />
+                  <h4>Enquiry Sent!</h4>
                   <p>Opening WhatsApp to complete your message with our team...</p>
                 </div>
               )}
@@ -159,229 +159,186 @@ export const ContactSection: React.FC = () => {
 
       {/* Floating WhatsApp Action Button */}
       <a
-        href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20want%20to%20chat.`}
+        href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20have%20an%20enquiry.`}
         target="_blank"
         rel="noopener noreferrer"
-        className="floating-whatsapp-btn"
+        className="floating-wa-btn"
         title="Chat on WhatsApp"
         aria-label="Floating WhatsApp support button"
       >
         <MessageCircle size={28} />
-        <span className="wa-pulse" />
       </a>
 
       <style>{`
         .contact-section {
-          padding: 8rem 2rem;
-          background: var(--bg-surface);
+          padding: 6rem 1.5rem;
+          background: var(--bg-main);
           position: relative;
         }
 
         .contact-container {
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
         }
 
         .contact-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 5rem;
+          gap: 4rem;
         }
 
-        .contact-info-col {
+        .contact-info {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
+          gap: 1.25rem;
+        }
+
+        .contact-desc {
+          color: var(--text-secondary);
+          line-height: 1.6;
         }
 
         .info-cards-list {
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
+          gap: 1rem;
           margin-top: 1rem;
         }
 
-        .info-card {
+        .info-item {
           display: flex;
           gap: 1rem;
-          background: var(--bg-card);
+          background: #FFFFFF;
           padding: 1.25rem;
           border-radius: var(--radius-md);
-          border: 1px solid var(--border-medium);
+          border: 1px solid var(--border-light);
+          box-shadow: var(--shadow-sm);
         }
 
         .info-icon {
-          color: var(--accent-terracotta);
+          color: var(--color-primary);
           flex-shrink: 0;
         }
 
-        .info-card strong {
+        .info-item strong {
           display: block;
           color: var(--text-primary);
           font-size: 0.9rem;
           margin-bottom: 0.2rem;
         }
 
-        .info-card p, .info-card a {
+        .info-item p, .info-item a {
           font-size: 0.9rem;
           color: var(--text-secondary);
           text-decoration: none;
         }
 
-        .info-card a:hover {
-          color: var(--accent-terracotta);
-        }
-
-        /* Dark Map Placeholder */
-        .dark-map-card {
-          margin-top: 1rem;
-          background: #08120C;
+        .map-card {
+          margin-top: 1.5rem;
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
-          border-radius: var(--radius-lg);
-          height: 220px;
-          position: relative;
-          overflow: hidden;
+          border-radius: var(--radius-md);
+          padding: 1.5rem;
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          justify-content: center;
+          gap: 1rem;
+          box-shadow: var(--shadow-sm);
         }
 
-        .map-badge {
-          position: absolute;
-          top: 1rem;
-          left: 1rem;
-          font-size: 0.7rem;
-          color: var(--accent-sage);
+        .map-card p {
+          font-size: 0.85rem;
+          color: var(--text-muted);
         }
 
-        .map-placeholder {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.75rem;
-          text-align: center;
+        .map-link-btn {
+          font-size: 0.8rem;
+          padding: 0.55rem 1rem;
         }
 
-        .pin-pulse {
-          width: 14px;
-          height: 14px;
-          background: var(--accent-terracotta);
-          border-radius: 50%;
-          box-shadow: 0 0 0 8px rgba(216, 106, 56, 0.3);
-          animation: pulsePin 2s infinite;
-        }
-
-        @keyframes pulsePin {
-          0% { box-shadow: 0 0 0 0 rgba(216, 106, 56, 0.6); }
-          70% { box-shadow: 0 0 0 16px rgba(216, 106, 56, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(216, 106, 56, 0); }
-        }
-
-        .map-btn {
-          font-size: 0.75rem;
-          padding: 0.5rem 1rem;
-        }
-
-        /* Form Column */
-        .contact-form-col {
-          display: flex;
-          flex-direction: column;
-        }
-
+        /* Form */
         .form-card {
-          background: var(--bg-card);
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-lg);
           padding: 3rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
+          box-shadow: var(--shadow-md);
         }
 
-        .contact-form {
+        .form-title { font-size: 2rem; color: var(--color-primary); }
+        .form-sub { color: var(--text-secondary); margin-bottom: 1.5rem; }
+
+        .form-grid {
           display: flex;
           flex-direction: column;
           gap: 1.25rem;
-          margin-top: 1rem;
         }
 
-        .form-group {
+        .field-group {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.4rem;
         }
 
-        .form-group label {
+        .field-group label {
           font-size: 0.8rem;
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: var(--accent-sage);
+          letter-spacing: 0.08em;
+          color: var(--text-secondary);
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .field-group input, .field-group select, .field-group textarea {
           width: 100%;
-          padding: 0.9rem 1.25rem;
-          background: var(--bg-surface);
+          padding: 0.85rem 1.15rem;
+          background: var(--bg-main);
           border: 1px solid var(--border-medium);
-          border-radius: var(--radius-md);
+          border-radius: var(--radius-sm);
+          font-size: 0.95rem;
           color: var(--text-primary);
-          font-family: inherit;
           outline: none;
+          font-family: inherit;
         }
 
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-          border-color: var(--accent-terracotta);
+        .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
+          border-color: var(--color-primary);
         }
 
         .submit-btn {
-          margin-top: 1rem;
-          justify-content: center;
+          margin-top: 0.5rem;
+          width: 100%;
         }
 
         .form-success {
+          text-align: center;
+          padding: 3rem 1rem;
           display: flex;
           flex-direction: column;
           align-items: center;
-          justify-content: center;
           gap: 1rem;
-          padding: 4rem 2rem;
-          text-align: center;
         }
 
-        /* Floating WhatsApp Button */
-        .floating-whatsapp-btn {
+        /* Floating WA */
+        .floating-wa-btn {
           position: fixed;
           bottom: 2rem;
           right: 2rem;
-          z-index: 800;
-          width: 60px;
-          height: 60px;
+          z-index: 900;
+          width: 58px;
+          height: 58px;
           border-radius: 50%;
           background: #25D366;
-          color: #FFF;
+          color: #FFFFFF;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+          box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
           text-decoration: none;
           transition: transform 0.3s ease;
         }
 
-        .floating-whatsapp-btn:hover {
+        .floating-wa-btn:hover {
           transform: scale(1.1);
-        }
-
-        .wa-pulse {
-          position: absolute;
-          inset: -4px;
-          border-radius: 50%;
-          border: 2px solid #25D366;
-          animation: pulseWA 2s infinite;
-        }
-
-        @keyframes pulseWA {
-          0% { transform: scale(1); opacity: 1; }
-          100% { transform: scale(1.4); opacity: 0; }
         }
 
         @media (max-width: 900px) {

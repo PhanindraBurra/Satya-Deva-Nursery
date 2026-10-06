@@ -1,72 +1,59 @@
 import React, { useState } from 'react';
-import { Sparkles, ArrowRight, RotateCcw, CheckCircle2, MessageCircle } from 'lucide-react';
+import { Sparkles, ArrowRight, RotateCcw, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { PLANTS_DATA, NURSERY_DETAILS, type Plant } from '../data/nurseryData';
 
-interface Question {
-  id: number;
-  title: string;
-  subtitle: string;
-  options: { label: string; icon: string; value: string }[];
-}
-
 export const PlantDoctorQuiz: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [recommendedPlant, setRecommendedPlant] = useState<Plant | null>(null);
 
-  const questions: Question[] = [
+  const questions = [
     {
-      id: 1,
-      title: "Where will your new plant reside?",
-      subtitle: "Help us match the environmental micro-climate of your space.",
+      title: "Where will your plant live?",
+      subtitle: "Select the primary location environment.",
       options: [
         { label: "Indoor Living Room / Office", icon: "🏠", value: "Indoor" },
         { label: "Balcony / Terrace Garden", icon: "🪴", value: "Outdoor" },
-        { label: "Open Orchard / Backyard", icon: "🌳", value: "Fruit Trees" },
-        { label: "Sculptural Desk / Studio", icon: "🎋", value: "Bonsai" },
+        { label: "Open Orchard / Yard", icon: "🌳", value: "Fruit Trees" },
+        { label: "Sculptural Desk", icon: "🎋", value: "Bonsai" },
       ],
     },
     {
-      id: 2,
-      title: "What is the daily direct sunlight access?",
-      subtitle: "Light is the lifeblood of plant growth.",
+      title: "How much direct sunlight does it get?",
+      subtitle: "Light access determines optimal species.",
       options: [
-        { label: "6+ Hours Direct Sun", icon: "☀️", value: "Full Sun" },
-        { label: "Filtered Morning Light", icon: "🌤️", value: "Bright Indirect" },
-        { label: "Partial Shade / Canopy", icon: "🌥️", value: "Partial Shade" },
-        { label: "Low Artificial Light", icon: "💡", value: "Low Light" },
+        { label: "Full Sun (6+ Hours)", icon: "☀️", value: "Full Sun" },
+        { label: "Filtered Bright Light", icon: "🌤️", value: "Bright Indirect" },
+        { label: "Partial Shade", icon: "🌥️", value: "Partial Shade" },
+        { label: "Low Indoor Light", icon: "💡", value: "Low Light" },
       ],
     },
     {
-      id: 3,
-      title: "How often can you water your plants?",
-      subtitle: "Be honest! We have options for every routine.",
+      title: "What is your watering routine?",
+      subtitle: "We have species for every schedule.",
       options: [
-        { label: "Daily Ritual Waterer", icon: "💧", value: "High" },
+        { label: "Water Daily", icon: "💧", value: "High" },
         { label: "2-3 Times a Week", icon: "🚰", value: "Moderate" },
-        { label: "Forgetful / Frequent Traveler", icon: "🌵", value: "Low" },
+        { label: "Forgetful / Low Maintenance", icon: "🌵", value: "Low" },
       ],
     },
   ];
 
-  const handleOptionSelect = (val: string) => {
-    const updatedAnswers = { ...answers, [currentStep]: val };
-    setAnswers(updatedAnswers);
+  const handleSelect = (val: string) => {
+    const updated = { ...answers, [step]: val };
+    setAnswers(updated);
 
-    if (currentStep < questions.length - 1) {
-      setCurrentStep(currentStep + 1);
+    if (step < questions.length - 1) {
+      setStep(step + 1);
     } else {
-      // Calculate recommendation match
-      const categoryPref = updatedAnswers[0] || 'Indoor';
-      const match =
-        PLANTS_DATA.find((p) => p.category === categoryPref) ||
-        PLANTS_DATA[Math.floor(Math.random() * PLANTS_DATA.length)];
-      setRecommendedPlant(match);
+      const matchCategory = updated[0] || 'Indoor';
+      const found = PLANTS_DATA.find((p) => p.category === matchCategory) || PLANTS_DATA[0];
+      setRecommendedPlant(found);
     }
   };
 
   const resetQuiz = () => {
-    setCurrentStep(0);
+    setStep(0);
     setAnswers({});
     setRecommendedPlant(null);
   };
@@ -75,32 +62,23 @@ export const PlantDoctorQuiz: React.FC = () => {
     <section id="plant-doctor" className="quiz-section">
       <div className="quiz-container">
         <div className="quiz-card">
-          <div className="eyebrow">05 // INTERACTIVE DIAGNOSTIC</div>
+          <div className="eyebrow">PLANT DOCTOR RECOMMENDATION</div>
 
           {!recommendedPlant ? (
             <>
               <div className="quiz-progress-bar">
-                <div
-                  className="progress-fill"
-                  style={{ height: '4px', width: `${((currentStep + 1) / questions.length) * 100}%` }}
-                />
+                <div className="progress-fill" style={{ width: `${((step + 1) / questions.length) * 100}%` }} />
               </div>
 
-              <div className="quiz-question-header">
-                <span className="step-indicator font-mono">
-                  QUESTION 0{currentStep + 1} OF 0{questions.length}
-                </span>
-                <h2 className="text-display-md">{questions[currentStep].title}</h2>
-                <p>{questions[currentStep].subtitle}</p>
+              <div className="quiz-header">
+                <span className="step-count">STEP 0{step + 1} OF 0{questions.length}</span>
+                <h2 className="section-heading">{questions[step].title}</h2>
+                <p className="quiz-sub">{questions[step].subtitle}</p>
               </div>
 
               <div className="quiz-options-grid">
-                {questions[currentStep].options.map((opt) => (
-                  <button
-                    key={opt.label}
-                    className="quiz-opt-btn"
-                    onClick={() => handleOptionSelect(opt.value)}
-                  >
+                {questions[step].options.map((opt) => (
+                  <button key={opt.label} className="quiz-opt-btn" onClick={() => handleSelect(opt.value)}>
                     <span className="opt-icon">{opt.icon}</span>
                     <span className="opt-label">{opt.label}</span>
                     <ArrowRight size={18} className="opt-arrow" />
@@ -109,40 +87,40 @@ export const PlantDoctorQuiz: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="result-container">
-              <div className="result-badge">
-                <Sparkles size={16} />
-                <span>YOUR PERFECT BOTANICAL MATCH</span>
+            <div className="result-card">
+              <div className="result-badge font-serif">
+                <Sparkles size={16} /> PERFECT MATCH RECOMMENDED
               </div>
 
-              <div className="result-content-grid">
-                <div className="result-img-wrapper">
+              <div className="result-grid">
+                <div className="result-img">
                   <img src={recommendedPlant.image} alt={recommendedPlant.name} />
                 </div>
 
                 <div className="result-info">
-                  <h2 className="text-display-md font-serif">{recommendedPlant.name}</h2>
-                  <em className="font-mono">{recommendedPlant.botanicalName}</em>
+                  <h3 className="result-title font-serif">{recommendedPlant.name}</h3>
+                  <em className="result-botanical">{recommendedPlant.botanicalName}</em>
+                  <div className="result-price">{recommendedPlant.price}</div>
 
                   <p className="result-desc">{recommendedPlant.description}</p>
 
-                  <div className="result-care-highlight">
-                    <CheckCircle2 color="#8FA89B" size={18} />
-                    <span><strong>Why it matches:</strong> Thrives in {recommendedPlant.sunlight} with {recommendedPlant.waterNeed} watering needs.</span>
+                  <div className="result-match-reason">
+                    <CheckCircle2 size={18} color="#0F382C" />
+                    <span>Matches your <strong>{recommendedPlant.sunlight}</strong> environment with <strong>{recommendedPlant.waterNeed}</strong> water needs.</span>
                   </div>
 
                   <div className="result-actions">
                     <a
-                      href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20my%20Plant%20Doctor%20quiz%20recommended%20${encodeURIComponent(recommendedPlant.name)}.%20I%20would%20like%20to%20order.`}
+                      href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20Plant%20Doctor%20recommended%20${encodeURIComponent(recommendedPlant.name)}.%20I%20want%20to%20order.`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-editorial btn-primary"
+                      className="btn btn-whatsapp"
                     >
                       <MessageCircle size={18} />
                       <span>Order Matched Plant ({recommendedPlant.price})</span>
                     </a>
 
-                    <button className="btn-editorial" onClick={resetQuiz}>
+                    <button className="btn btn-outline" onClick={resetQuiz}>
                       <RotateCcw size={16} />
                       <span>Retake Quiz</span>
                     </button>
@@ -156,123 +134,115 @@ export const PlantDoctorQuiz: React.FC = () => {
 
       <style>{`
         .quiz-section {
-          padding: 8rem 2rem;
-          background: var(--bg-surface);
+          padding: 6rem 1.5rem;
+          background: var(--bg-main);
         }
 
         .quiz-container {
-          max-width: 1000px;
+          max-width: 980px;
           margin: 0 auto;
         }
 
         .quiz-card {
-          background: var(--bg-card);
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-lg);
-          padding: 4rem 3rem;
-          position: relative;
-          box-shadow: var(--shadow-lg);
+          padding: 3.5rem 3rem;
+          box-shadow: var(--shadow-md);
         }
 
         .quiz-progress-bar {
-          background: var(--border-light);
-          height: 4px;
-          border-radius: 2px;
-          margin: 2rem 0;
+          background: var(--bg-surface);
+          height: 5px;
+          border-radius: 3px;
+          margin: 1.5rem 0 2rem;
           overflow: hidden;
         }
 
         .progress-fill {
-          background: var(--accent-terracotta);
-          transition: width 0.4s ease;
+          background: var(--color-primary);
+          height: 100%;
+          transition: width 0.3s ease;
         }
 
-        .quiz-question-header {
-          margin-bottom: 3rem;
-        }
-
-        .step-indicator {
+        .step-count {
           font-size: 0.8rem;
-          color: var(--accent-terracotta);
+          font-weight: 700;
+          color: var(--color-accent);
+          letter-spacing: 0.1em;
         }
 
-        .quiz-question-header h2 {
-          margin: 0.75rem 0;
+        .quiz-sub {
+          color: var(--text-secondary);
+          margin-bottom: 2rem;
         }
 
         .quiz-options-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1.5rem;
+          gap: 1.25rem;
         }
 
         .quiz-opt-btn {
           display: flex;
           align-items: center;
-          gap: 1.25rem;
-          padding: 1.5rem;
+          gap: 1rem;
+          padding: 1.25rem;
           background: var(--bg-surface);
-          border: 1px solid var(--border-medium);
+          border: 1px solid var(--border-light);
           border-radius: var(--radius-md);
-          color: var(--text-primary);
           cursor: pointer;
           text-align: left;
+          color: var(--text-primary);
           transition: var(--transition-fast);
         }
 
         .quiz-opt-btn:hover {
-          border-color: var(--accent-terracotta);
-          background: var(--bg-elevated);
-          transform: translateX(4px);
+          border-color: var(--color-primary);
+          background: #FFFFFF;
+          box-shadow: var(--shadow-sm);
         }
 
-        .opt-icon { font-size: 1.8rem; }
-        .opt-label { font-size: 1.05rem; font-weight: 500; flex-grow: 1; }
-        .opt-arrow { color: var(--accent-sage); transition: transform 0.3s ease; }
-        .quiz-opt-btn:hover .opt-arrow { transform: translateX(4px); color: var(--accent-terracotta); }
+        .opt-icon { font-size: 1.6rem; }
+        .opt-label { font-size: 1rem; font-weight: 600; flex-grow: 1; }
+        .opt-arrow { color: var(--color-primary); }
 
-        /* Result View */
+        /* Result */
         .result-badge {
           display: inline-flex;
           align-items: center;
           gap: 0.5rem;
-          color: var(--accent-marigold);
-          font-size: 0.8rem;
-          letter-spacing: 0.15em;
+          color: var(--color-accent);
+          font-weight: 700;
+          font-size: 0.9rem;
           margin-bottom: 2rem;
         }
 
-        .result-content-grid {
+        .result-grid {
           display: grid;
-          grid-template-columns: 320px 1fr;
-          gap: 3rem;
+          grid-template-columns: 280px 1fr;
+          gap: 2.5rem;
           align-items: center;
         }
 
-        .result-img-wrapper {
-          border-radius: var(--radius-md);
-          overflow: hidden;
-          height: 380px;
-        }
-
-        .result-img-wrapper img {
+        .result-img img {
           width: 100%;
-          height: 100%;
+          height: 320px;
           object-fit: cover;
+          border-radius: var(--radius-md);
         }
 
         .result-info {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
-        .result-desc {
-          color: var(--text-secondary);
-          line-height: 1.7;
-        }
+        .result-title { font-size: 2.2rem; color: var(--color-primary); }
+        .result-botanical { color: var(--text-muted); }
+        .result-price { font-size: 1.8rem; font-weight: 700; color: var(--color-accent); }
 
-        .result-care-highlight {
+        .result-match-reason {
           display: flex;
           align-items: center;
           gap: 0.75rem;
@@ -292,7 +262,7 @@ export const PlantDoctorQuiz: React.FC = () => {
         @media (max-width: 768px) {
           .quiz-card { padding: 2rem 1.5rem; }
           .quiz-options-grid { grid-template-columns: 1fr; }
-          .result-content-grid { grid-template-columns: 1fr; }
+          .result-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </section>

@@ -1,274 +1,214 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowUpRight, MessageCircle, Sparkles } from 'lucide-react';
-import { ThreePlantCanvas } from './ThreePlantCanvas';
+import React from 'react';
+import { ArrowRight, MessageCircle, ShieldCheck, Truck, Sprout, Award } from 'lucide-react';
 import { NURSERY_DETAILS } from '../data/nurseryData';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export const HeroSection: React.FC = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const maskRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    // 1. Split Text animation for "Rooted in Care."
-    if (titleRef.current) {
-      const letters = titleRef.current.querySelectorAll('.char');
-      gsap.fromTo(
-        letters,
-        { y: 100, opacity: 0, rotateX: -60 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateX: 0,
-          duration: 1.2,
-          stagger: 0.04,
-          ease: 'power4.out',
-          delay: 0.2,
-        }
-      );
-    }
-
-    // 2. Scroll Scrubbed Mask Expansion (Leaf/Arch clip-path expands to full screen)
-    if (maskRef.current && heroRef.current) {
-      gsap.fromTo(
-        maskRef.current,
-        {
-          clipPath: 'polygon(25% 10%, 75% 10%, 90% 70%, 50% 98%, 10% 70%)',
-          borderRadius: '40px',
-        },
-        {
-          clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%)',
-          borderRadius: '0px',
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-            pin: false,
-          },
-        }
-      );
-    }
-  }, []);
-
-  const headlineText = "Rooted in Care.";
-
   return (
-    <section ref={heroRef} className="hero-container">
-      {/* Background Mask Video Container */}
-      <div ref={maskRef} className="hero-video-mask">
-        {/* Looping botanical nature video canvas/video element */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="hero-bg-video"
-          poster="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=1600"
-        >
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-sun-shining-through-the-leaves-of-a-tree-42524-large.mp4"
-            type="video/mp4"
-          />
-        </video>
-        <div className="hero-video-overlay" />
-      </div>
+    <section className="hero-section">
+      <div className="hero-container">
+        {/* Hero Content Left */}
+        <div className="hero-text-block">
+          <div className="eyebrow">SRI SATYADEVA NURSERY • EST. 1950</div>
 
-      {/* Hero Content Overlay */}
-      <div className="hero-content">
-        <div className="hero-eyebrow">
-          <Sparkles size={16} />
-          <span>SRI SATYADEVA NURSERY • EST. 1950</span>
-        </div>
+          <h1 className="hero-headline font-serif">
+            Bring Nature Home from India's Premier 120-Acre Nursery.
+          </h1>
 
-        {/* Rising Split Text Headline */}
-        <h1 ref={titleRef} className="hero-title text-display-xl">
-          {headlineText.split("").map((char, index) => (
-            <span key={index} className="char" style={{ display: 'inline-block' }}>
-              {char === " " ? "\u00A0" : char}
-            </span>
-          ))}
-        </h1>
+          <p className="hero-subline">
+            Cultivating over 500+ species of high-yield fruit grafts, indoor biophilic greenery, exotic ornamental flora, and bonsai in Kadiyapulanka, Andhra Pradesh for 75 years.
+          </p>
 
-        <p className="hero-subtitle">
-          India's pioneer 120-acre botanical sanctuary in Kadiyam. Cultivating over 500+ rare species, exotic fruit grafts, and award-winning landscape masterworks for 75 years.
-        </p>
+          <div className="hero-cta-row">
+            <a href="#catalogue" className="btn btn-primary">
+              <span>Explore Plant Catalogue</span>
+              <ArrowRight size={16} />
+            </a>
 
-        {/* Action Buttons */}
-        <div className="hero-actions">
-          <a
-            href="#catalogue"
-            className="btn-editorial btn-primary"
-            data-cursor-text="EXPLORE"
-          >
-            <span>Explore Nursery</span>
-            <ArrowUpRight size={18} />
-          </a>
-
-          <a
-            href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20would%20like%20to%20consult%20with%20your%20landscape%20expert.`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-editorial"
-            data-cursor-text="WHATSAPP"
-          >
-            <MessageCircle size={18} />
-            <span>Chat on WhatsApp</span>
-          </a>
-        </div>
-
-        {/* 3D Potted Plant Floating Badge */}
-        <div className="hero-3d-badge" data-cursor-text="ORBIT 3D">
-          <div className="badge-canvas-wrapper">
-            <ThreePlantCanvas />
+            <a
+              href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20am%20looking%20for%20plant%20recommendations.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-whatsapp"
+            >
+              <MessageCircle size={18} />
+              <span>Chat on WhatsApp</span>
+            </a>
           </div>
-          <div className="badge-text">
-            <strong>Interactive 3D Specimen</strong>
-            <span>Drag to rotate • Ficus Bonsai</span>
+
+          {/* Quick Trust Bar */}
+          <div className="trust-grid">
+            <div className="trust-item">
+              <Sprout className="trust-icon" size={20} />
+              <div>
+                <strong>500+ Species</strong>
+                <span>Fruit, Indoor & Exotic</span>
+              </div>
+            </div>
+
+            <div className="trust-item">
+              <Award className="trust-icon" size={20} />
+              <div>
+                <strong>75+ Yrs Legacy</strong>
+                <span>Founded 1950</span>
+              </div>
+            </div>
+
+            <div className="trust-item">
+              <Truck className="trust-icon" size={20} />
+              <div>
+                <strong>Pan-India Shipping</strong>
+                <span>Safe Freight Transport</span>
+              </div>
+            </div>
+
+            <div className="trust-item">
+              <ShieldCheck className="trust-icon" size={20} />
+              <div>
+                <strong>Healthy Arrival</strong>
+                <span>100% Plant Guarantee</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Image Right */}
+        <div className="hero-visual-block">
+          <div className="hero-image-card">
+            <img
+              src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&q=80&w=1200"
+              alt="Sri Satyadeva Nursery Orchards"
+              className="hero-main-img"
+            />
+            <div className="image-overlay-badge">
+              <span className="badge-title font-serif">Kadiyam Mother Orchards</span>
+              <span className="badge-sub">120 Acres of Cultivation</span>
+            </div>
           </div>
         </div>
       </div>
 
       <style>{`
+        .hero-section {
+          padding: 8.5rem 1.5rem 4rem;
+          background: linear-gradient(180deg, #F0F4F1 0%, #FAFAF7 100%);
+        }
+
         .hero-container {
-          position: relative;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 8rem 2rem 4rem;
-          overflow: hidden;
-        }
-
-        .hero-video-mask {
-          position: absolute;
-          inset: 2rem;
-          z-index: 1;
-          overflow: hidden;
-          box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-          transition: clip-path 0.1s linear;
-        }
-
-        .hero-bg-video {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transform: scale(1.05);
-        }
-
-        .hero-video-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            180deg,
-            rgba(11, 26, 18, 0.75) 0%,
-            rgba(11, 26, 18, 0.85) 50%,
-            rgba(11, 26, 18, 0.95) 100%
-          );
-        }
-
-        [data-theme="daylight"] .hero-video-overlay {
-          background: linear-gradient(
-            180deg,
-            rgba(245, 243, 237, 0.75) 0%,
-            rgba(245, 243, 237, 0.85) 50%,
-            rgba(245, 243, 237, 0.95) 100%
-          );
-        }
-
-        .hero-content {
-          position: relative;
-          z-index: 10;
-          max-width: 1100px;
+          max-width: 1240px;
           margin: 0 auto;
-          text-align: center;
+          display: grid;
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 4rem;
+          align-items: center;
+        }
+
+        .hero-text-block {
           display: flex;
           flex-direction: column;
-          align-items: center;
-        }
-
-        .hero-eyebrow {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem 1.25rem;
-          border-radius: var(--radius-full);
-          background: rgba(45, 90, 63, 0.3);
-          border: 1px solid var(--border-accent);
-          color: var(--accent-sage);
-          font-size: 0.85rem;
-          letter-spacing: 0.2em;
-          margin-bottom: 2rem;
-        }
-
-        .hero-title {
-          font-size: clamp(3.5rem, 9vw, 8.5rem);
-          font-weight: 300;
-          color: var(--text-primary);
-          line-height: 0.95;
-          letter-spacing: -0.04em;
-          margin-bottom: 2rem;
-          perspective: 1000px;
-        }
-
-        .hero-subtitle {
-          font-size: var(--font-body-lg);
-          color: var(--text-secondary);
-          max-width: 720px;
-          line-height: 1.7;
-          margin-bottom: 3rem;
-        }
-
-        .hero-actions {
-          display: flex;
-          align-items: center;
           gap: 1.5rem;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-bottom: 3rem;
         }
 
-        .hero-3d-badge {
+        .hero-headline {
+          font-size: clamp(2.5rem, 5vw, 4.2rem);
+          line-height: 1.1;
+          color: var(--color-primary);
+        }
+
+        .hero-subline {
+          font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+          color: var(--text-secondary);
+          line-height: 1.65;
+        }
+
+        .hero-cta-row {
           display: flex;
           align-items: center;
           gap: 1rem;
-          padding: 0.75rem 1.5rem 0.75rem 0.75rem;
-          background: var(--bg-card);
-          border: 1px solid var(--border-medium);
-          border-radius: var(--radius-full);
-          box-shadow: var(--shadow-lg);
+          flex-wrap: wrap;
+          margin-top: 0.5rem;
         }
 
-        .badge-canvas-wrapper {
-          width: 54px;
-          height: 54px;
-          border-radius: 50%;
-          overflow: hidden;
-          background: var(--bg-surface);
+        .trust-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+          margin-top: 2rem;
+          padding-top: 2rem;
+          border-top: 1px solid var(--border-medium);
         }
 
-        .badge-text {
+        .trust-item {
           display: flex;
-          flex-direction: column;
-          text-align: left;
-          font-size: 0.8rem;
+          align-items: center;
+          gap: 0.85rem;
         }
 
-        .badge-text strong {
+        .trust-icon {
+          color: var(--color-primary);
+          flex-shrink: 0;
+        }
+
+        .trust-item strong {
+          display: block;
+          font-size: 0.95rem;
           color: var(--text-primary);
         }
 
-        .badge-text span {
-          color: var(--text-muted);
-          font-size: 0.7rem;
+        .trust-item span {
+          font-size: 0.8rem;
+          color: var(--text-secondary);
         }
 
-        @media (max-width: 768px) {
-          .hero-container { padding-top: 6rem; }
-          .hero-video-mask { inset: 0.5rem; }
+        .hero-visual-block {
+          position: relative;
+        }
+
+        .hero-image-card {
+          position: relative;
+          border-radius: var(--radius-lg);
+          overflow: hidden;
+          box-shadow: var(--shadow-lg);
+          height: 540px;
+        }
+
+        .hero-main-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .image-overlay-badge {
+          position: absolute;
+          bottom: 1.5rem;
+          left: 1.5rem;
+          background: rgba(15, 56, 44, 0.9);
+          backdrop-filter: blur(10px);
+          color: #FFFFFF;
+          padding: 0.85rem 1.4rem;
+          border-radius: var(--radius-md);
+          display: flex;
+          flex-direction: column;
+        }
+
+        .badge-title {
+          font-size: 1.15rem;
+        }
+
+        .badge-sub {
+          font-size: 0.75rem;
+          opacity: 0.85;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+        }
+
+        @media (max-width: 1024px) {
+          .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+          .hero-image-card { height: 380px; }
+        }
+
+        @media (max-width: 640px) {
+          .trust-grid { grid-template-columns: 1fr; gap: 1rem; }
+          .hero-section { padding-top: 6.5rem; }
         }
       `}</style>
     </section>

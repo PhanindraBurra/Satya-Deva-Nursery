@@ -3,31 +3,33 @@ import { ChevronDown } from 'lucide-react';
 import { FAQS_DATA } from '../data/nurseryData';
 
 export const FAQAccordion: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
 
-  const toggleAccordion = (idx: number) => {
-    setOpenIndex(openIndex === idx ? null : idx);
+  const toggle = (idx: number) => {
+    setOpenIdx(openIdx === idx ? null : idx);
   };
 
   return (
     <section className="faq-section">
       <div className="faq-container">
-        <div className="eyebrow">10 // FREQUENT INQUIRIES</div>
-        <h2 className="text-display-lg">Frequently Asked Questions</h2>
+        <div className="section-header text-center">
+          <div className="eyebrow">FREQUENT QUESTIONS</div>
+          <h2 className="section-heading">Frequently Asked Questions</h2>
+        </div>
 
         <div className="faq-list">
           {FAQS_DATA.map((faq, idx) => {
-            const isOpen = openIndex === idx;
+            const isOpen = openIdx === idx;
             return (
               <div key={idx} className={`faq-item ${isOpen ? 'open' : ''}`}>
-                <button className="faq-question-btn" onClick={() => toggleAccordion(idx)}>
+                <button className="faq-question-btn" onClick={() => toggle(idx)}>
                   <span className="faq-question font-serif">{faq.question}</span>
-                  <ChevronDown size={20} className={`faq-icon ${isOpen ? 'rotate' : ''}`} />
+                  <ChevronDown size={18} className={`faq-chevron ${isOpen ? 'rotate' : ''}`} />
                 </button>
 
                 {isOpen && (
-                  <div className="faq-answer-wrapper">
-                    <p className="faq-answer">{faq.answer}</p>
+                  <div className="faq-answer-box">
+                    <p>{faq.answer}</p>
                   </div>
                 )}
               </div>
@@ -38,73 +40,74 @@ export const FAQAccordion: React.FC = () => {
 
       <style>{`
         .faq-section {
-          padding: 8rem 2rem;
-          background: var(--bg-deep);
+          padding: 6rem 1.5rem;
+          background: var(--bg-surface);
         }
 
         .faq-container {
-          max-width: 900px;
+          max-width: 860px;
           margin: 0 auto;
         }
+
+        .text-center { text-align: center; }
 
         .faq-list {
           margin-top: 3rem;
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
+          gap: 1rem;
         }
 
         .faq-item {
-          background: var(--bg-card);
+          background: #FFFFFF;
           border: 1px solid var(--border-medium);
           border-radius: var(--radius-md);
           overflow: hidden;
-          transition: var(--transition-fast);
+          box-shadow: var(--shadow-sm);
         }
 
         .faq-item.open {
-          border-color: var(--accent-terracotta);
+          border-color: var(--color-primary);
         }
 
         .faq-question-btn {
           width: 100%;
-          padding: 1.75rem 2rem;
+          padding: 1.5rem 1.75rem;
           background: none;
           border: none;
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 1.5rem;
-          color: var(--text-primary);
+          gap: 1rem;
+          color: var(--color-primary);
           text-align: left;
           cursor: pointer;
         }
 
         .faq-question {
-          font-size: 1.35rem;
+          font-size: 1.25rem;
         }
 
-        .faq-icon {
-          color: var(--accent-sage);
+        .faq-chevron {
+          color: var(--text-muted);
           transition: transform 0.3s ease;
-          flex-shrink: 0;
         }
 
-        .faq-icon.rotate {
+        .faq-chevron.rotate {
           transform: rotate(180deg);
-          color: var(--accent-terracotta);
+          color: var(--color-primary);
         }
 
-        .faq-answer-wrapper {
-          padding: 0 2rem 2rem 2rem;
-        }
-
-        .faq-answer {
+        .faq-answer-box {
+          padding: 0 1.75rem 1.5rem 1.75rem;
           font-size: 0.95rem;
           color: var(--text-secondary);
-          line-height: 1.7;
+          line-height: 1.65;
           border-top: 1px solid var(--border-light);
-          padding-top: 1.25rem;
+        }
+
+        .faq-answer-box p {
+          padding-top: 1rem;
         }
       `}</style>
     </section>

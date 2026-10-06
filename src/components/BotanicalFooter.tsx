@@ -1,98 +1,43 @@
-import React, { useRef, useState } from 'react';
-import { ArrowUp, Heart } from 'lucide-react';
+import React from 'react';
+import { Heart, ArrowUp } from 'lucide-react';
 import { NURSERY_DETAILS } from '../data/nurseryData';
 
 export const BotanicalFooter: React.FC = () => {
-  const [isSprouting, setIsSprouting] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const handleBackToTop = () => {
-    setIsSprouting(true);
-
-    // Canvas sprout animation on click
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        let frame = 0;
-        const animateSprout = () => {
-          frame++;
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          const cx = canvas.width / 2;
-          const cy = canvas.height - 10;
-
-          // Stem
-          const stemH = Math.min(60, frame * 2);
-          ctx.strokeStyle = '#2D5A3F';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.moveTo(cx, cy);
-          ctx.lineTo(cx, cy - stemH);
-          ctx.stroke();
-
-          // Leaves
-          if (frame > 15) {
-            ctx.fillStyle = '#D86A38';
-            ctx.beginPath();
-            ctx.ellipse(cx - 10, cy - stemH, 8, 4, -Math.PI / 4, 0, Math.PI * 2);
-            ctx.ellipse(cx + 10, cy - stemH, 8, 4, Math.PI / 4, 0, Math.PI * 2);
-            ctx.fill();
-          }
-
-          if (frame < 35) {
-            requestAnimationFrame(animateSprout);
-          }
-        };
-        animateSprout();
-      }
-    }
-
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setTimeout(() => setIsSprouting(false), 1000);
-    }, 400);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="footer-container">
-      {/* Oversized Outlined Brand Text Marquee */}
-      <div className="marquee-wrapper">
-        <div className="marquee-track">
-          <span className="text-stroke font-serif">SRI SATYADEVA NURSERY • KADIYAM • </span>
-          <span className="text-stroke font-serif">ESTABLISHED 1950 • BOTANICAL SANCTUARY • </span>
-          <span className="text-stroke font-serif">SRI SATYADEVA NURSERY • KADIYAM • </span>
-        </div>
-      </div>
-
-      <div className="footer-content">
+    <footer className="footer">
+      <div className="footer-container">
         <div className="footer-grid">
-          <div className="footer-brand-col">
-            <h3 className="footer-logo font-serif">SRI SATYADEVA NURSERY</h3>
+          <div className="footer-brand">
+            <h3 className="footer-title font-serif">SRI SATYADEVA NURSERY</h3>
             <p className="footer-desc">
-              Pioneering commercial plant cultivation, exotic fruit grafting, and master landscape design since 1950.
+              Pioneering commercial plant cultivation, exotic fruit grafting, and master landscape design in Kadiyam since 1950.
             </p>
-            <div className="footer-badge font-mono">120 ACRES • KADIYAPULANKA, AP</div>
+            <span className="footer-badge font-mono">120 ACRES • KADIYAPULANKA, AP</span>
           </div>
 
-          <div className="footer-links-col">
-            <h4>Navigation</h4>
-            <a href="#manifesto">01 Manifesto</a>
-            <a href="#watch-it-grow">02 Watch It Grow</a>
-            <a href="#collections">03 Collections</a>
-            <a href="#catalogue">04 Shop Catalogue</a>
-            <a href="#plant-doctor">05 Plant Doctor Quiz</a>
+          <div className="footer-col">
+            <h4>Quick Links</h4>
+            <a href="#categories">Categories</a>
+            <a href="#catalogue">Plant Catalogue</a>
+            <a href="#plant-doctor">Plant Doctor Quiz</a>
+            <a href="#services">Services</a>
+            <a href="#care-guide">Care Guide</a>
           </div>
 
-          <div className="footer-links-col">
+          <div className="footer-col">
             <h4>Capabilities</h4>
             <a href="#services">Landscape Architecture</a>
-            <a href="#services">Wholesale Supply Logistics</a>
-            <a href="#services">Indoor Biophilic Styling</a>
-            <a href="#care-guide">Plant Care Wisdom</a>
+            <a href="#services">Wholesale Supply Freight</a>
+            <a href="#services">Indoor & Terrace Setup</a>
+            <a href="#story">75-Year Heritage</a>
           </div>
 
-          <div className="footer-contact-col">
-            <h4>Direct Desk</h4>
+          <div className="footer-col">
+            <h4>Contact Info</h4>
             <p><strong>Call:</strong> {NURSERY_DETAILS.phone}</p>
             <p><strong>WhatsApp:</strong> {NURSERY_DETAILS.whatsapp}</p>
             <p><strong>Email:</strong> {NURSERY_DETAILS.email}</p>
@@ -100,57 +45,29 @@ export const BotanicalFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Back to Top Sprouting Button */}
-        <div className="back-to-top-wrapper">
-          <canvas ref={canvasRef} width={100} height={100} className={`footer-sprout-canvas ${isSprouting ? 'active' : ''}`} />
-          <button className="back-to-top-btn btn-editorial" onClick={handleBackToTop}>
-            <span>Back to Top</span>
-            <ArrowUp size={16} />
-          </button>
-        </div>
-
-        <div className="footer-bottom font-mono">
+        <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Sri Satyadeva Nursery. All Rights Reserved.</span>
-          <span>Crafted with <Heart size={12} fill="#D86A38" color="#D86A38" /> in Kadiyam, India.</span>
+
+          <button className="back-top-btn" onClick={scrollToTop}>
+            <span>Back to Top</span>
+            <ArrowUp size={15} />
+          </button>
+
+          <span>Made with <Heart size={13} fill="#C85A32" color="#C85A32" /> in Kadiyam, India</span>
         </div>
       </div>
 
       <style>{`
+        .footer {
+          background: #0A1E17;
+          color: #F4F8F5;
+          padding: 5rem 1.5rem 2.5rem;
+          border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
         .footer-container {
-          background: #060E0A;
-          color: var(--text-primary);
-          padding-top: 4rem;
-          border-top: 1px solid var(--border-medium);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .marquee-wrapper {
-          overflow: hidden;
-          padding: 2rem 0;
-          border-bottom: 1px solid var(--border-light);
-        }
-
-        .marquee-track {
-          display: flex;
-          white-space: nowrap;
-          animation: marquee 25s linear infinite;
-        }
-
-        .marquee-track span {
-          font-size: clamp(3rem, 7vw, 7rem);
-          padding-right: 2rem;
-        }
-
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-
-        .footer-content {
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
-          padding: 6rem 2rem 3rem;
           display: flex;
           flex-direction: column;
           gap: 4rem;
@@ -162,96 +79,96 @@ export const BotanicalFooter: React.FC = () => {
           gap: 3rem;
         }
 
-        .footer-brand-col {
+        .footer-brand {
           display: flex;
           flex-direction: column;
           gap: 1rem;
         }
 
-        .footer-logo {
-          font-size: 1.8rem;
-          letter-spacing: 0.05em;
+        .footer-title {
+          font-size: 1.6rem;
+          letter-spacing: 0.04em;
         }
 
         .footer-desc {
           font-size: 0.9rem;
-          color: var(--text-secondary);
+          color: #B0C4B6;
           line-height: 1.6;
         }
 
         .footer-badge {
           font-size: 0.75rem;
-          color: var(--accent-terracotta);
-          margin-top: 0.5rem;
+          color: var(--color-gold);
         }
 
-        .footer-links-col {
+        .footer-col {
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
         }
 
-        .footer-links-col h4, .footer-contact-col h4 {
+        .footer-col h4 {
           font-size: 0.85rem;
           text-transform: uppercase;
-          letter-spacing: 0.15em;
-          color: var(--accent-sage);
+          letter-spacing: 0.12em;
+          color: var(--color-gold);
           margin-bottom: 0.5rem;
         }
 
-        .footer-links-col a {
+        .footer-col a {
           font-size: 0.9rem;
-          color: var(--text-secondary);
+          color: #B0C4B6;
           text-decoration: none;
           transition: var(--transition-fast);
         }
 
-        .footer-links-col a:hover {
-          color: var(--accent-terracotta);
-          transform: translateX(4px);
+        .footer-col a:hover {
+          color: #FFFFFF;
         }
 
-        .footer-contact-col p {
+        .footer-col p {
           font-size: 0.85rem;
-          color: var(--text-muted);
+          color: #B0C4B6;
           line-height: 1.6;
         }
 
-        .footer-contact-col strong {
-          color: var(--text-primary);
-        }
-
-        .back-to-top-wrapper {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.5rem;
-          position: relative;
-        }
-
-        .footer-sprout-canvas {
-          width: 80px;
-          height: 80px;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .footer-sprout-canvas.active {
-          opacity: 1;
+        .footer-col strong {
+          color: #FFFFFF;
         }
 
         .footer-bottom {
           display: flex;
           justify-content: space-between;
+          align-items: center;
           padding-top: 2rem;
-          border-top: 1px solid var(--border-light);
+          border-top: 1px solid rgba(255,255,255,0.1);
+          font-size: 0.85rem;
+          color: #8FA89B;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        .back-top-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.15);
+          color: #FFFFFF;
+          padding: 0.5rem 1.25rem;
+          border-radius: var(--radius-full);
           font-size: 0.8rem;
-          color: var(--text-muted);
+          cursor: pointer;
+          transition: var(--transition-fast);
+        }
+
+        .back-top-btn:hover {
+          background: var(--color-primary-hover);
         }
 
         @media (max-width: 900px) {
           .footer-grid { grid-template-columns: 1fr 1fr; }
-          .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+          .footer-bottom { flex-direction: column; text-align: center; }
         }
       `}</style>
     </footer>

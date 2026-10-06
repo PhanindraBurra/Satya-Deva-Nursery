@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUpRight, Compass, Truck, Home, Stethoscope } from 'lucide-react';
+import { Compass, Truck, Home, Stethoscope, ArrowRight } from 'lucide-react';
 import { SERVICES_DATA, NURSERY_DETAILS } from '../data/nurseryData';
 
 export const ServicesSection: React.FC = () => {
@@ -16,28 +16,28 @@ export const ServicesSection: React.FC = () => {
   return (
     <section id="services" className="services-section">
       <div className="services-container">
-        <div className="services-header">
-          <div className="eyebrow">06 // HORTICULTURAL CAPABILITIES</div>
-          <h2 className="text-display-lg">Landscaping & Master Services</h2>
-          <p>From private estate master plans to nationwide wholesale freight, we craft botanical environments engineered for longevity.</p>
+        <div className="section-header">
+          <div className="eyebrow">NURSERY CAPABILITIES</div>
+          <h2 className="section-heading">Landscaping & Services</h2>
+          <p className="section-subtext">
+            From luxury estate master plans to nationwide wholesale freight, our experienced team delivers end-to-end botanical excellence.
+          </p>
         </div>
 
-        {/* Bento Layout */}
-        <div className="bento-grid">
-          {SERVICES_DATA.map((service, idx) => (
-            <div key={service.id} className={`bento-item item-${idx + 1}`}>
-              <div className="bento-img-bg">
+        <div className="services-grid">
+          {SERVICES_DATA.map((service) => (
+            <div key={service.id} className="service-card">
+              <div className="service-img-wrapper">
                 <img src={service.image} alt={service.title} />
-                <div className="bento-gradient" />
+                <div className="service-icon-badge">{getIcon(service.iconName)}</div>
               </div>
 
-              <div className="bento-content">
-                <div className="bento-icon-badge">{getIcon(service.iconName)}</div>
-                <h3 className="bento-title font-serif">{service.title}</h3>
-                <p className="bento-tagline">{service.tagline}</p>
-                <p className="bento-desc">{service.description}</p>
+              <div className="service-body">
+                <h3 className="service-title font-serif">{service.title}</h3>
+                <p className="service-tagline font-serif">{service.tagline}</p>
+                <p className="service-desc">{service.description}</p>
 
-                <ul className="bento-highlights">
+                <ul className="service-highlights">
                   {service.highlights.map((h) => (
                     <li key={h}>✓ {h}</li>
                   ))}
@@ -47,10 +47,10 @@ export const ServicesSection: React.FC = () => {
                   href={`https://wa.me/${NURSERY_DETAILS.whatsapp}?text=Hello%20Satyadeva%20Nursery,%20I%20would%20like%20to%20consult%20about%20${encodeURIComponent(service.title)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-editorial bento-cta"
+                  className="btn btn-outline service-cta"
                 >
                   <span>Book Consultation</span>
-                  <ArrowUpRight size={16} />
+                  <ArrowRight size={15} />
                 </a>
               </div>
             </div>
@@ -60,129 +60,105 @@ export const ServicesSection: React.FC = () => {
 
       <style>{`
         .services-section {
-          padding: 8rem 2rem;
-          background: var(--bg-deep);
+          padding: 6rem 1.5rem;
+          background: var(--bg-surface);
         }
 
         .services-container {
-          max-width: 1200px;
+          max-width: 1240px;
           margin: 0 auto;
         }
 
-        .services-header {
-          margin-bottom: 4rem;
-        }
-
-        .bento-grid {
+        .services-grid {
           display: grid;
-          grid-template-columns: repeat(12, 1fr);
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
           gap: 2rem;
+          margin-top: 3rem;
         }
 
-        .bento-item {
-          position: relative;
-          background: var(--bg-card);
-          border: 1px solid var(--border-medium);
-          border-radius: var(--radius-lg);
+        .service-card {
+          background: #FFFFFF;
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-md);
           overflow: hidden;
-          padding: 3rem;
+          box-shadow: var(--shadow-sm);
           display: flex;
           flex-direction: column;
-          justify-content: flex-end;
-          min-height: 440px;
           transition: var(--transition-smooth);
         }
 
-        .bento-item:hover {
-          border-color: var(--accent-terracotta);
-          transform: translateY(-4px);
+        .service-card:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-md);
+          border-color: var(--color-primary);
         }
 
-        .item-1 { grid-column: span 7; }
-        .item-2 { grid-column: span 5; }
-        .item-3 { grid-column: span 5; }
-        .item-4 { grid-column: span 7; }
-
-        .bento-img-bg {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
+        .service-img-wrapper {
+          position: relative;
+          height: 200px;
         }
 
-        .bento-img-bg img {
+        .service-img-wrapper img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          opacity: 0.25;
-          transition: transform 0.8s ease, opacity 0.8s ease;
         }
 
-        .bento-item:hover .bento-img-bg img {
-          transform: scale(1.08);
-          opacity: 0.35;
-        }
-
-        .bento-gradient {
+        .service-icon-badge {
           position: absolute;
-          inset: 0;
-          background: linear-gradient(0deg, var(--bg-card) 20%, transparent 100%);
-        }
-
-        .bento-content {
-          position: relative;
-          z-index: 10;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .bento-icon-badge {
+          bottom: -1.25rem;
+          left: 1.5rem;
           width: 48px;
           height: 48px;
           border-radius: 50%;
-          background: var(--accent-moss);
-          color: #FFF;
+          background: var(--color-primary);
+          color: #FFFFFF;
           display: flex;
           align-items: center;
           justify-content: center;
+          box-shadow: var(--shadow-md);
         }
 
-        .bento-title {
-          font-size: 2.2rem;
-          color: var(--text-primary);
+        .service-body {
+          padding: 2.25rem 1.5rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.6rem;
+          flex-grow: 1;
         }
 
-        .bento-tagline {
-          font-size: 1rem;
-          color: var(--accent-sage);
+        .service-title {
+          font-size: 1.5rem;
+          color: var(--color-primary);
+        }
+
+        .service-tagline {
+          font-size: 0.95rem;
+          color: var(--color-accent);
           font-style: italic;
         }
 
-        .bento-desc {
+        .service-desc {
           font-size: 0.9rem;
           color: var(--text-secondary);
           line-height: 1.6;
         }
 
-        .bento-highlights {
+        .service-highlights {
           list-style: none;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.5rem 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.35rem;
           font-size: 0.85rem;
           color: var(--text-primary);
           margin-top: 0.5rem;
+          margin-bottom: 1rem;
         }
 
-        .bento-cta {
-          align-self: flex-start;
-          margin-top: 1rem;
-          font-size: 0.75rem;
-        }
-
-        @media (max-width: 900px) {
-          .item-1, .item-2, .item-3, .item-4 { grid-column: span 12; }
-          .bento-highlights { grid-template-columns: 1fr; }
+        .service-cta {
+          margin-top: auto;
+          width: 100%;
+          justify-content: center;
         }
       `}</style>
     </section>
