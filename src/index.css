@@ -1,0 +1,290 @@
+/* ==========================================================================
+   BOTANICAL EDITORIAL DESIGN SYSTEM
+   Sri Satyadeva Nursery — Established 1950
+   ========================================================================== */
+
+:root {
+  /* Dark Forest Mode Palette (Default) */
+  --bg-deep: #0B1A12;
+  --bg-surface: #12281C;
+  --bg-card: #183324;
+  --bg-elevated: #224230;
+  
+  --text-primary: #F4F1EA;
+  --text-secondary: #B0C4B6;
+  --text-muted: #738E7E;
+  
+  --accent-moss: #2D5A3F;
+  --accent-sage: #8FA89B;
+  --accent-terracotta: #D86A38;
+  --accent-terracotta-glow: rgba(216, 106, 56, 0.25);
+  --accent-marigold: #E5A93C;
+  --accent-gold: #F2C94C;
+
+  --border-light: rgba(244, 241, 234, 0.1);
+  --border-medium: rgba(244, 241, 234, 0.2);
+  --border-accent: rgba(143, 168, 155, 0.3);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(45, 90, 63, 0.4);
+
+  /* Fonts */
+  --font-serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Courier New', monospace;
+
+  /* Fluid Clamp Scale */
+  --font-display-xl: clamp(3rem, 7.5vw, 7.5rem);
+  --font-display-lg: clamp(2.2rem, 5vw, 5rem);
+  --font-display-md: clamp(1.8rem, 3.5vw, 3.5rem);
+  --font-heading-sm: clamp(1.25rem, 2vw, 2.2rem);
+  --font-body-lg: clamp(1.05rem, 1.3vw, 1.35rem);
+  --font-body-md: clamp(0.9rem, 1.1vw, 1.1rem);
+  --font-body-sm: clamp(0.75rem, 0.9vw, 0.9rem);
+
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="daylight"] {
+  --bg-deep: #F5F3ED;
+  --bg-surface: #E8E4D8;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #DDD7C8;
+
+  --text-primary: #0C1E14;
+  --text-secondary: #354E40;
+  --text-muted: #5F7A6A;
+
+  --accent-moss: #3A694C;
+  --accent-sage: #5A7E6B;
+  --accent-terracotta: #C85A32;
+  --accent-terracotta-glow: rgba(200, 90, 50, 0.2);
+  --accent-marigold: #D48C28;
+  --accent-gold: #D4A325;
+
+  --border-light: rgba(12, 30, 20, 0.08);
+  --border-medium: rgba(12, 30, 20, 0.18);
+  --border-accent: rgba(58, 105, 76, 0.3);
+
+  --shadow-sm: 0 4px 12px rgba(12, 30, 20, 0.06);
+  --shadow-lg: 0 20px 40px rgba(12, 30, 20, 0.12);
+}
+
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-color: var(--bg-deep);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Film Grain Overlay */
+.film-grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-moss);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-sage);
+}
+
+/* Typography Classes */
+.font-serif {
+  font-family: var(--font-serif);
+}
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+.text-display-xl {
+  font-family: var(--font-serif);
+  font-size: var(--font-display-xl);
+  line-height: 0.95;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+}
+
+.text-display-lg {
+  font-family: var(--font-serif);
+  font-size: var(--font-display-lg);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.text-display-md {
+  font-family: var(--font-serif);
+  font-size: var(--font-display-md);
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--font-body-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-terracotta);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+}
+
+/* Magnetic Buttons & Interactive Components */
+.btn-editorial {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid var(--border-medium);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-editorial::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--accent-moss), var(--accent-terracotta));
+  z-index: -1;
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.btn-editorial:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-terracotta);
+  box-shadow: 0 10px 25px rgba(216, 106, 56, 0.3);
+}
+
+.btn-editorial:hover::before {
+  opacity: 1;
+}
+
+.btn-primary {
+  background: var(--accent-terracotta);
+  color: #FFFFFF;
+  border-color: var(--accent-terracotta);
+}
+
+.btn-primary:hover {
+  background: #C35626;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-terracotta);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.custom-cursor.hovering {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(216, 106, 56, 0.9);
+  border-color: var(--accent-terracotta);
+  box-shadow: 0 0 20px var(--accent-terracotta-glow);
+}
+
+/* Outlined Typography Marquee */
+.text-stroke {
+  -webkit-text-stroke: 1px var(--text-muted);
+  color: transparent;
+  transition: var(--transition-smooth);
+}
+
+.text-stroke:hover {
+  -webkit-text-stroke: 1px var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+/* Touch Devices & Reduced Motion Safety */
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
+
